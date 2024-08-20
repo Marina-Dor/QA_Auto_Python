@@ -37,7 +37,8 @@ print(perimeter)
 """
 # task 07
 """
-4 apple trees were planted in the garden. Pears are 5 more than apple trees, and plums are 2 less.
+4 apple trees were planted in the garden. 
+Pears are 5 more than apple trees, and plums are 2 less.
 How many trees were planted in the garden?
 """
 apple_tree = 4
@@ -60,9 +61,9 @@ temp_evening = temp_after_lunch + 4
 print(f"The temperature in the evening is {temp_evening} degree")
 # task 09
 """
-Взагалі у театральному гуртку - 24 хлопчики, а дівчаток - вдвічі менше.
-1 хлопчик захворів та 2 дівчинки не прийшли сьогодні.
-Скількі сьогодні дітей у театральному гуртку?
+In general, there are 24 boys in the theater group, and half as many girls.
+1 boy got sick and 2 girls didn't come today.
+How many children are there in the theater group today?
 """
 theater_group_boys = 24
 theater_group_girls = theater_group_boys / 2
