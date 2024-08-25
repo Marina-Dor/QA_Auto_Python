@@ -1,4 +1,4 @@
-adwentures_of_tom_sawer = """\
+adventures_of_tom_sawyer = """\
 Tom gave up the brush with reluctance in his .... face but alacrity
 in his heart. And while
 the late steamer
@@ -19,52 +19,71 @@ hour after hour. And when the middle of the afternoon came, from being a
 poor poverty, stricken boy in the .... morning, Tom was literally
 rolling in wealth."""
 
-##  ПЕРЕЗАПИСУЙТЕ зміст змінної adwentures_of_tom_sawer у завданнях 1-3
+# OVERWRITE the contents of the variable adventures_of_tom_sawyer in exercises 1-3
 # task 01 ==
-""" Дані у строці adwentures_of_tom_sawer розбиті випадковим чином, через помилку.
-треба замінити кінець абзацу на пробіл .replace("\n", " ")"""
+""" The data in the row adventures_of_tom_sawyer is broken randomly, due to a bug.
+you need to replace the end of the paragraph with a space.replace("\n", " ")"""
+
+adventures_of_tom_sawyer = adventures_of_tom_sawyer.replace("\n", " ")
 
 # task 02 ==
-""" Замініть .... на пробіл
+""" Replace .... with a space
 """
+adventures_of_tom_sawyer = adventures_of_tom_sawyer.replace("....", " ")
 
 # task 03 ==
-""" Зробіть так, щоб у тексті було не більше одного пробілу між словами.
+""" Correct so that there is no more than one space between words in the text.
 """
+adventures_of_tom_sawyer = adventures_of_tom_sawyer.split()
+adventures_of_tom_sawyer = " ".join(adventures_of_tom_sawyer)
 
+print(adventures_of_tom_sawyer)
 
 # task 04
-""" Виведіть, скількі разів у тексті зустрічається літера "h"
+""" Print how many times the letter "h" occurs in the text
 """
-
+letter_h_counter = adventures_of_tom_sawyer.count("h")
+print(f"\nLetter 'h' occurs in the sentence {letter_h_counter} times")
 
 # task 05
-""" Виведіть, скільки слів у тексті починається з Великої літери?
+""" Display the number of words in the text that begin with a capital letter?
 """
-
+capitalized_word_counter = 0
+for word in adventures_of_tom_sawyer:
+    if word.istitle():
+        capitalized_word_counter += 1
+print(f"\nThere are {capitalized_word_counter} capitalized words in the text")
 
 # task 06
-""" Виведіть позицію, на якій слово Tom зустрічається вдруге
+""" Find the position in which the word Tom occurs the second time
 """
-
+tom_finder = adventures_of_tom_sawyer.find("Tom", 3)
+print(f"\nThe word Tom occurs for the second time in the {tom_finder} position\n")
 
 # task 07
-""" Розділіть змінну adwentures_of_tom_sawer по кінцю речення.
-Збережіть результат у змінній adwentures_of_tom_sawer_sentences
+""" Split the variable adventures_of_tom_sawyer by the end of the sentence.
+Store the result in the variable adventures_of_tom_sawyer_sentences
 """
-adwentures_of_tom_sawer_sentences = None
+adventures_of_tom_sawyer_sentences = adventures_of_tom_sawyer.split('.')
+adventures_of_tom_sawyer_sentences.pop()
+print(adventures_of_tom_sawyer_sentences)
 
 # task 08
-""" Виведіть четверте речення з adwentures_of_tom_sawer_sentences.
-Перетворіть рядок у нижній регістр.
+""" Display the fourth sentence from adventures_of_tom_sawyer_sentences.
+Convert the string to lower case.
 """
-
+print(f"\nThe fourth sentence in the text is: {adventures_of_tom_sawyer_sentences[3]}\n")
+adventures_of_tom_sawyer_sentences[3] = adventures_of_tom_sawyer_sentences[3].lower()
 
 # task 09
-""" Перевірте чи починається якесь речення з "By the time".
+""" Check if any sentence starts with "By the time".
 """
-
+for sentence in adventures_of_tom_sawyer_sentences:
+    if sentence.lstrip().capitalize().startswith("By the time"):
+        print(sentence)
 
 # task 10
-""" Виведіть кількість слів останнього речення з adwentures_of_tom_sawer_sentences.
+""" Display the number of words in the last sentence of adventures_of_tom_sawyer_sentences. 
 """
+words_in_last_sentence = adventures_of_tom_sawyer_sentences[-1].split()
+print(f"\nThe number of words in the last sentence is: {len(words_in_last_sentence)}")
