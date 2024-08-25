@@ -29,8 +29,8 @@ is 37,800 km2. What is the area of the Black Sea and the Azov Sea together?
 """
 black_sea_area = 436402
 azov_sea_area = 37800
-seas_total_area = int(black_sea_area + azov_sea_area)
-print (f"The total area of Black and Azov seas is {seas_total_area} km2\n")
+seas_total_area = black_sea_area + azov_sea_area
+print(f"The total area of Black and Azov seas is {seas_total_area} km2\n")
 
 # task 05
 """
@@ -41,9 +41,9 @@ Find the number of goods placed in each warehouse.
 total_amount_of_goods = 375291
 goods_in_warehouse_1_and_2 = 250449
 goods_in_warehouse_2_and_3 = 222950
-goods_in_warehouse_1 = int(total_amount_of_goods - goods_in_warehouse_2_and_3)
-goods_in_warehouse_3 = int(total_amount_of_goods - goods_in_warehouse_1_and_2)
-goods_in_warehouse_2 = int(total_amount_of_goods - (goods_in_warehouse_1 + goods_in_warehouse_3))
+goods_in_warehouse_1 = total_amount_of_goods - goods_in_warehouse_2_and_3
+goods_in_warehouse_3 = total_amount_of_goods - goods_in_warehouse_1_and_2
+goods_in_warehouse_2 = total_amount_of_goods - (goods_in_warehouse_1 + goods_in_warehouse_3)
 
 print(f"""There are {goods_in_warehouse_1} goods in Warehouse 1\n
 There are {goods_in_warehouse_2} goods in Warehouse 2\n
@@ -58,7 +58,7 @@ Calculate the cost of the computer.
 """
 loan_term = 18
 monthly_payment = 1179
-computer_cost = int(loan_term * monthly_payment)
+computer_cost = loan_term * monthly_payment
 print(f"The cost of the computer is {computer_cost} hryvnias\n")
 
 # task 07
@@ -72,8 +72,8 @@ numbers_list_1: list[int] = [8019, 9907, 2789, 7248, 7128, 19224]
 numbers_list_2: list[int] = [8, 9, 5, 6, 5, 9]
 
 for i in range(len(numbers_list_1)):
-    reminder = numbers_list_1[i] % numbers_list_2[i]
-    print(f"The remainder from the division of numbers {numbers_list_1[i]} and {numbers_list_2[i]} is {reminder}")
+    remainder = numbers_list_1[i] % numbers_list_2[i]
+    print(f"The remainder from the division of numbers {numbers_list_1[i]} and {numbers_list_2[i]} is {remainder}")
 print('\n')
 
 # task 08
