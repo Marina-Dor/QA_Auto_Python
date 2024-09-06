@@ -48,7 +48,7 @@ print("-"*100)
 
 
 def the_arithmetic_mean_of_the_list(numbers: list):
-    return sum(numbers)/len(numbers)
+    return sum(numbers) / len(numbers)
 
 
 result1 = the_arithmetic_mean_of_the_list([4, 5, 6, 9, 10])
