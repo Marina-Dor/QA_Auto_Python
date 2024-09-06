@@ -40,7 +40,7 @@ def the_sum_of_two_numbers(number1, number2):
 
 result2 = the_sum_of_two_numbers(5, 6)
 print("The sum of two numbers is:", result2)
-print("-"*100)
+print("-" * 100)
 
 # task 3
 """ Write a function that calculates the arithmetic mean of a list of numbers.
