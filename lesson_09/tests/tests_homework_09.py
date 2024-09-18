@@ -126,6 +126,10 @@ class ArithmeticMeanTest(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
     # Negative
+    def test_arithmetic_mean_non_numeric(self):
+        with self.assertRaises(TypeError):
+            the_arithmetic_mean_of_the_list(["qwerty1"])
+
     def test_arithmetic_empty_list(self):
         with self.assertRaises(ZeroDivisionError):
             the_arithmetic_mean_of_the_list([])
