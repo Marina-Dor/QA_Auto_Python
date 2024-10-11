@@ -5,6 +5,7 @@ from lesson_16.src.homework_16_1_Employee import TeamLead
 @pytest.fixture
 def team_lead():
     team_lead = TeamLead("Maryna", 100000, "QA", 5)
+    return team_lead
 
 
 def test_team_lead_attributes_available(team_lead):
