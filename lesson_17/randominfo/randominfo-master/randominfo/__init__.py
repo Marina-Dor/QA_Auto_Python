@@ -4,14 +4,14 @@ import csv
 import glob
 import shutil
 import sys
-from datetime import datetime
+import pytz
+
+from datetime import datetime, timezone
 from fileinput import filename
 from math import ceil
 from os import W_OK, access
 from os.path import abspath, dirname, join, split
 from random import choice, randint, randrange, sample
-
-import pytz
 from PIL import Image, ImageDraw, ImageFont
 
 sys.path.append("/randominfo/")
@@ -35,17 +35,17 @@ class Person:
         self.birthdate = self.get_birthdate()
         self.phone = self.get_phone_number()
         self.email = self.get_email()
-        self.gender = self.get_gender()
+        self.gender = self.get_gender(self.first_name)
         self.country = self.get_country()
         self.paswd = self.random_password()
         self.hobbies = self.get_hobbies()
         self.address = self.get_address()
-        self.customAttr = {}
+        self.custom_attr = {}
 
     def set_attr(self, attr_name, value=None):
         if attr_name.isalnum():
             if attr_name[0].isalpha():
-                self.customAttr[attr_name] = value
+                self.custom_attr[attr_name] = value
                 print("Attribute '" + str(attr_name) + "' added.")
             else:
                 raise ValueError("First character of attribute must be an alphabet.")
@@ -55,8 +55,8 @@ class Person:
     def get_attr(self, attr_name):
         if attr_name.isalnum():
             if attr_name[0].isalpha():
-                if attr_name in self.customAttr.keys():
-                    return self.customAttr[attr_name]
+                if attr_name in self.custom_attr.keys():
+                    return self.custom_attr[attr_name]
                 else:
                     raise AttributeError("Specified attribute is not exists.")
             else:
@@ -77,7 +77,7 @@ class Person:
             "country": self.country,
             "hobbies": self.hobbies,
             "address": self.address,
-            "other_attr": self.customAttr
+            "other_attr": self.custom_attr
         }
 
     @staticmethod
@@ -201,11 +201,17 @@ class Person:
         ext = choice(extensions)
 
         if c == 0:
-            email = person.first_name + self.get_formatted_datetime("%Y", person.birthdate, "%d %b, %Y") + dmn + "." + ext
+            email = (person.first_name +
+                     self.get_formatted_datetime("%Y", person.birthdate, "%d %b, %Y") +
+                     dmn + "." + ext)
         elif c == 1:
-            email = person.last_name + self.get_formatted_datetime("%d", person.birthdate, "%d %b, %Y") + dmn + "." + ext
+            email = (person.last_name +
+                     self.get_formatted_datetime("%d", person.birthdate, "%d %b, %Y") +
+                     dmn + "." + ext)
         else:
-            email = person.first_name + self.get_formatted_datetime("%y", person.birthdate, "%d %b, %Y") + dmn + "." + ext
+            email = (person.first_name +
+                     self.get_formatted_datetime("%y", person.birthdate, "%d %b, %Y") +
+                     dmn + "." + ext)
         return email
 
     @staticmethod
@@ -293,7 +299,7 @@ class Person:
                 raise OSError("Invalid or insufficient privileges for specified file path.")
         else:
             raise OSError("Invalid image name. "
-                          "Image name must contains characher including digits, alphabets, "
+                          "Image name must contains character including digits, alphabets, "
                           "white space, dot, comma, ( ) [ ] { } _ + - =.")
 
     start_range = datetime(1970, 1, 1, 0, 0, 0, 0, pytz.UTC)
@@ -312,7 +318,7 @@ class Person:
         else:
             if type(tstamp).__name__ != 'int':
                 raise ValueError("Timestamp must be an integer.")
-        return datetime.utcfromtimestamp(tstamp).strftime(_format)
+        return datetime.fromtimestamp(tstamp, tz=timezone.utc).strftime(_format)
 
     @staticmethod
     def get_birthdate(start_age=None, end_age=None, _format="%d %b, %Y"):
@@ -351,7 +357,7 @@ class Person:
                 try:
                     if addr[i] != '':
                         all_addresses.append(addr[i])
-                except:
+                except IndexError:
                     pass
             full_addr.append(choice(all_addresses))
         full_addr = dict(zip(addr_param, full_addr))
