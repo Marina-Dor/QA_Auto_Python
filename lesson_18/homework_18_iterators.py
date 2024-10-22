@@ -5,10 +5,20 @@
 from utils import print_separator
 
 
-def reverse_order_list(some_list):
-    reversed_list = reversed(some_list)
-    for value in reversed_list:
-        print(value)
+class ReverseListIterator:
+    def __init__(self, some_list):
+        self.some_list = some_list
+        self.index = len(some_list)  # Starting from the last element
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index == 0:
+            raise StopIteration
+        # Move the index to the previous element
+        self.index -= 1
+        return self.some_list[self.index]
 
 
 class EvenNumbersIterator:
@@ -41,7 +51,9 @@ for number in list_of_even_numbers:
 
 
 list_to_reverse = [1, 2, 3, "Four", "Five", "Six"]
+
 print_separator(100, "-")
 print(f"Printing the list {list_to_reverse} in reversed order:")
 print_separator(100, "-")
-reverse_order_list(list_to_reverse)
+for value in ReverseListIterator(list_to_reverse):
+    print(value)
