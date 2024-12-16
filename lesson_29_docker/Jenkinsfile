@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                // Pulling the code from repository
+                checkout scm
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                // Building a Docker image
+                sh 'docker build -t lesson29_project .'
+            }
+        }
+
+        stage('Run Tests in Docker') {
+            steps {
+                // Running a container to run tests
+                sh """
+                    docker run --rm \
+                    -v $(pwd)/tests:/app/tests \
+                    -v $(pwd)/src:/app/src \
+                    lesson29_project pytest --junitxml=results.xml
+                """
+            }
+        }
+
+        stage('Publish Test Results') {
+            steps {
+                // Collecting test results
+                junit 'results.xml'
+            }
+        }
+    }
