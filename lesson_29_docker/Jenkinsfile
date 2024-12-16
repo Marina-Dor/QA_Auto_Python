@@ -12,14 +12,14 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 // Building a Docker image
-                sh 'docker build -t lesson29_project .'
+                bat 'docker build -t lesson29_project .'
             }
         }
 
         stage('Run Tests in Docker') {
             steps {
                 // Running a container to run tests
-                sh '''
+                bat '''
                     docker run --rm \
                     -v $(pwd)/tests:/app/tests \
                     -v $(pwd)/src:/app/src \
