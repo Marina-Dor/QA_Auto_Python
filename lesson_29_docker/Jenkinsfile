@@ -19,12 +19,12 @@ pipeline {
         stage('Run Tests in Docker') {
             steps {
                 // Running a container to run tests
-                sh """
+                sh '''
                     docker run --rm \
                     -v $(pwd)/tests:/app/tests \
                     -v $(pwd)/src:/app/src \
                     lesson29_project pytest --junitxml=results.xml
-                """
+                '''
             }
         }
 
