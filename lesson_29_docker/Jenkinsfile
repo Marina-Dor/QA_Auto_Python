@@ -1,34 +1,66 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "lesson29_project"
+        WORKSPACE_PATH = "${env.WORKSPACE}".replaceAll('\\\\', '/')
+    }
+
     stages {
+        stage('Checkout Code') {
+            steps {
+                echo "Cloning repository..."
+                checkout scm
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    echo "Workspace: ${env.WORKSPACE}"
-                    bat 'docker build -t lesson29_project -f lesson_29_docker/Dockerfile .'
+                    echo "Building Docker image..."
+                    bat '''
+                        docker build -t ${IMAGE_NAME} -f lesson_29_docker/Dockerfile .
+                    '''
                 }
+            }
         }
-}
 
-        stage('Run Tests in Docker') {
+        stage('Install Dependencies') {
             steps {
                 script {
-                    def workspace = env.WORKSPACE.replace("\\", "/")
-                    echo "Workspace for tests: ${workspace}"
+                    echo "Installing dependencies inside the container..."
+                    bat '''
+                        docker run --rm ${IMAGE_NAME} python3 -m pip install --no-cache-dir -r /app/requirements.txt
+                    '''
                 }
-                bat '''
-                    docker run --rm ^
-                    -v "${env.WORKSPACE}/tests:/app/tests" ^
-                    -v "${env.WORKSPACE}/src:/app/src" ^
-                    lesson29_project pytest --junitxml=results.xml
-                '''
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    echo "Running tests..."
+                    bat '''
+                        docker run --rm ^
+                            -v "${WORKSPACE_PATH}/tests:/app/tests" ^
+                            -v "${WORKSPACE_PATH}/src:/app/src" ^
+                            ${IMAGE_NAME} pytest --junitxml=results.xml
+                    '''
+                }
+            }
+        }
+
+        stage('Publish Test Results') {
+            steps {
+                echo "Publishing test results..."
+                junit 'results.xml'
             }
         }
     }
 
     post {
         always {
+            echo "Cleaning up workspace..."
             cleanWs()
         }
     }
