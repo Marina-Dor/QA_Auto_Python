@@ -5,12 +5,11 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def workspace = env.WORKSPACE.replace("\\", "/")
-                    echo "Workspace: ${workspace}"
+                    echo "Workspace: ${env.WORKSPACE}"
+                    bat 'docker build -t lesson29_project -f lesson_29_docker/Dockerfile .'
                 }
-                bat 'docker build -t lesson29_project -f lesson_29_docker/Dockerfile .'
-            }
         }
+}
 
         stage('Run Tests in Docker') {
             steps {
@@ -19,9 +18,9 @@ pipeline {
                     echo "Workspace for tests: ${workspace}"
                 }
                 bat '''
-                    docker run --rm
-                    -v "${env.WORKSPACE}/tests:/app/tests"
-                    -v "${env.WORKSPACE}/src:/app/src"
+                    docker run --rm ^
+                    -v "${env.WORKSPACE}/tests:/app/tests" ^
+                    -v "${env.WORKSPACE}/src:/app/src" ^
                     lesson29_project pytest --junitxml=results.xml
                 '''
             }
