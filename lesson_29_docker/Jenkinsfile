@@ -18,9 +18,9 @@ pipeline {
             steps {
                 script {
                     echo "Building Docker image..."
-                    bat '''
+                    bat """
                         docker build -t ${IMAGE_NAME} -f lesson_29_docker/Dockerfile .
-                    '''
+                    """
                 }
             }
         }
@@ -29,9 +29,9 @@ pipeline {
             steps {
                 script {
                     echo "Installing dependencies inside the container..."
-                    bat '''
+                    bat """
                         docker run --rm ${IMAGE_NAME} python3 -m pip install --no-cache-dir -r /app/requirements.txt
-                    '''
+                    """
                 }
             }
         }
@@ -40,12 +40,12 @@ pipeline {
             steps {
                 script {
                     echo "Running tests..."
-                    bat '''
+                    bat """
                         docker run --rm ^
-                            -v "${WORKSPACE_PATH}/tests:/app/tests" ^
-                            -v "${WORKSPACE_PATH}/src:/app/src" ^
-                            ${IMAGE_NAME} pytest --junitxml=results.xml
-                    '''
+                        -v "${WORKSPACE_PATH}/tests:/app/tests" ^
+                        -v "${WORKSPACE_PATH}/src:/app/src" ^
+                        ${IMAGE_NAME} pytest --junitxml=results.xml
+                    """
                 }
             }
         }
