@@ -20,13 +20,14 @@ pipeline {
 
         stage('Run Tests in Docker') {
             steps {
-                // Running a container to run tests
-                bat '''
-                    docker run --rm \
-                    -v $(pwd)/tests:/app/tests \
-                    -v $(pwd)/src:/app/src \
-                    lesson29_project pytest --junitxml=results.xml
-                '''
+                // Replace backslashes with forward slashes to make it Docker compatible
+                    def workspace = env.WORKSPACE.replace("\\", "/")
+                    bat '''
+                        docker run --rm \
+                        -v "${workspace}/tests:/app/tests" \
+                        -v "${workspace}/src:/app/src" \
+                        lesson29_project pytest --junitxml=results.xml
+                    '''
             }
         }
 
@@ -35,6 +36,11 @@ pipeline {
                 // Collecting test results
                 junit 'results.xml'
             }
+        }
+    }
+  post {
+        always {
+            cleanWs()
         }
     }
 }
