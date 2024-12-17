@@ -2,43 +2,33 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                // Pulling the code from repository
-                checkout scm
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                // Building a Docker image
-                bat '''
-                    docker build -t lesson29_project -f lesson_29_docker/Dockerfile .
-                '''
+                script {
+                    def workspace = env.WORKSPACE.replace("\\", "/")
+                    echo "Workspace: ${workspace}"
+                }
+                bat 'docker build -t lesson29_project -f lesson_29_docker/Dockerfile .'
             }
         }
 
         stage('Run Tests in Docker') {
             steps {
-                // Replace backslashes with forward slashes to make it Docker compatible
+                script {
                     def workspace = env.WORKSPACE.replace("\\", "/")
-                    bat '''
-                        docker run --rm \
-                        -v "${workspace}/tests:/app/tests" \
-                        -v "${workspace}/src:/app/src" \
-                        lesson29_project pytest --junitxml=results.xml
-                    '''
-            }
-        }
-
-        stage('Publish Test Results') {
-            steps {
-                // Collecting test results
-                junit 'results.xml'
+                    echo "Workspace for tests: ${workspace}"
+                }
+                sh '''
+                    docker run --rm \
+                    -v ${WORKSPACE}/tests:/app/tests \
+                    -v ${WORKSPACE}/src:/app/src \
+                    lesson29_project pytest --junitxml=results.xml
+                '''
             }
         }
     }
-  post {
+
+    post {
         always {
             cleanWs()
         }
