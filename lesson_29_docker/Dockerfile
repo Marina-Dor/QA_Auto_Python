@@ -3,8 +3,11 @@ FROM python:3.12-slim
 # Setting working directory
 WORKDIR /app
 
-# Copying the app code
+# Copying project files
 COPY . /app
+
+# Copying requirements.txt explicitly
+COPY lesson_29_docker/requirements.txt /app/requirements.txt
 
 ENV PYTHONPATH="/app:/app/tests"
 
