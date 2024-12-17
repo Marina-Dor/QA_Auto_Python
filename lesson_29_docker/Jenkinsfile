@@ -18,7 +18,7 @@ pipeline {
                     def workspace = env.WORKSPACE.replace("\\", "/")
                     echo "Workspace for tests: ${workspace}"
                 }
-                sh '''
+                bat '''
                     docker run --rm \
                     -v ${WORKSPACE}/tests:/app/tests \
                     -v ${WORKSPACE}/src:/app/src \
