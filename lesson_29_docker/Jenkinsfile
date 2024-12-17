@@ -12,7 +12,9 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 // Building a Docker image
-                bat 'docker build -t lesson29_project .'
+                bat '''
+                    docker build -t lesson29_project -f lesson_29_docker/Dockerfile .
+                '''
             }
         }
 
