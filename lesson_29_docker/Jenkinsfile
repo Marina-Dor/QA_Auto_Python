@@ -19,9 +19,9 @@ pipeline {
                     echo "Workspace for tests: ${workspace}"
                 }
                 bat '''
-                    docker run --rm \
-                    -v ${WORKSPACE}/tests:/app/tests \
-                    -v ${WORKSPACE}/src:/app/src \
+                    docker run --rm
+                    -v "${env.WORKSPACE}/tests:/app/tests"
+                    -v "${env.WORKSPACE}/src:/app/src"
                     lesson29_project pytest --junitxml=results.xml
                 '''
             }
